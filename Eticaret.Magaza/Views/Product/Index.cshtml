@@ -1,0 +1,31 @@
+﻿@using Eticaret.Model;
+
+@model List<Product>
+
+
+
+
+@{
+    ViewData["Title"] = "Ürünler";
+}
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Ürün Adı</th>
+            <th>Fiyat</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Product item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Name</td>
+                <td>@item.Price</td>
+            </tr>
+        }
+    </tbody>
+</table>
