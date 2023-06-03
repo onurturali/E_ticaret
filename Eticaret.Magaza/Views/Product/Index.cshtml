@@ -2,9 +2,6 @@
 
 @model List<Product>
 
-
-
-
 @{
     ViewData["Title"] = "Ürünler";
 }
@@ -16,6 +13,7 @@
             <th>ID</th>
             <th>Ürün Adı</th>
             <th>Fiyat</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -25,6 +23,9 @@
                 <td>@item.Id</td>
                 <td>@item.Name</td>
                 <td>@item.Price</td>
+                <td>
+                    @Html.ActionLink("Düzenle", "Edit", "Product", new { id = item.Id }, new { @class = "btn btn-sm btn-primary" })
+                </td>
             </tr>
         }
     </tbody>

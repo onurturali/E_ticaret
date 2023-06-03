@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Eticaret.Model;
 
-
-
-
 namespace Eticaret.Magaza.Controllers
 {
     [Route("auth")]
