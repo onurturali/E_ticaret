@@ -25,5 +25,11 @@ namespace Eticaret.Magaza.Controllers
                 return View();
             }
         }
+
+        [HttpGet, Route("register")]
+        public IActionResult Register()
+        {
+            return View();
+        }
     }
 }
