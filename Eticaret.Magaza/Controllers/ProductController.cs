@@ -25,5 +25,11 @@ namespace Eticaret.Magaza.Controllers
             Product product = new() { Id = id, Name = "Buzdolabı", Price = 40000 };
             return View(product);
         }
+
+        [Route("new")]
+        public IActionResult New()
+        {
+            return View();
+        }
     }
 }

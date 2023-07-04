@@ -31,5 +31,11 @@ namespace Eticaret.Magaza.Controllers
         {
             return View();
         }
+
+        [HttpPost, Route("register")]
+        public IActionResult Register(Register register)
+        {
+            return RedirectToAction("Login");
+        }
     }
 }
