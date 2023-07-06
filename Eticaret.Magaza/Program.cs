@@ -1,4 +1,12 @@
+using Eticaret.Magaza;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<MainDatabaseContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("MainDatabase"));
+});
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

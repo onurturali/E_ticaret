@@ -6,7 +6,7 @@ namespace Eticaret.Magaza.Controllers
     [Route("product")]
     public class ProductController : Controller
     {
-        [Route("")]
+        [HttpGet, Route("")]
         public IActionResult Index()
         {
             List<Product> products = new List<Product>()
@@ -26,10 +26,16 @@ namespace Eticaret.Magaza.Controllers
             return View(product);
         }
 
-        [Route("new")]
+        [HttpGet, Route("new")]
         public IActionResult New()
         {
             return View();
+        }
+
+        [HttpPost, Route("new")]
+        public IActionResult New(Product model)
+        {
+            return RedirectToAction("Index");
         }
     }
 }
