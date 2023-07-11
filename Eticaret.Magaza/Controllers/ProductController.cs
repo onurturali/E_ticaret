@@ -1,31 +1,40 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Eticaret.Model;
+using Eticaret.Magaza.Services;
 
 namespace Eticaret.Magaza.Controllers
 {
     [Route("product")]
     public class ProductController : Controller
     {
-        [HttpGet, Route("")]
-        public IActionResult Index()
-        {
-            List<Product> products = new List<Product>()
-            {
-                new Product(){ Id = 0, Name = "Laptop", Price = 30500 },
-                new Product(){ Id = 1, Name = "Mobile Phone", Price = 10000 },
-                new Product(){ Id = 2, Name = "Çamaşır Makinesi", Price = 20000 },
-            };
+        private readonly IProductService _productService;
 
+        public ProductController(IProductService productService)
+        {
+            _productService = productService;
+        }
+
+        [HttpGet, Route("")]
+        public async Task<IActionResult> Index()
+        {
+            List<Product>? products = await _productService.GetAllAsync();
             return View(products);
         }
 
-        [Route("edit/{id}")]
-        public IActionResult Edit(int id)
+        [HttpGet, Route("edit/{id}")]
+        public async Task<IActionResult> Edit(int id)
         {
-            Product product = new() { Id = id, Name = "Buzdolabı", Price = 40000 };
+            Product? product = await _productService.GetAsync(id);
             return View(product);
         }
 
+        [HttpPost, Route("edit")]
+        public async Task<IActionResult> Edit(Product model)
+        {
+            await _productService.UpdateAsync(model);
+            return RedirectToAction("Index");
+        }
+        
         [HttpGet, Route("new")]
         public IActionResult New()
         {
@@ -33,8 +42,9 @@ namespace Eticaret.Magaza.Controllers
         }
 
         [HttpPost, Route("new")]
-        public IActionResult New(Product model)
+        public async Task<IActionResult> New(Product model)
         {
+            await _productService.CreateAsync(model);
             return RedirectToAction("Index");
         }
     }

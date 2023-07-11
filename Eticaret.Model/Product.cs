@@ -15,5 +15,8 @@ namespace Eticaret.Model
 
         [DisplayName("Fiyat")]
         public double Price { get; set; }
+
+        // 0 = silindi, 1 = aktif, 3 = pasif
+        public int Status { get; set; }
     }
 }
