@@ -29,7 +29,7 @@ namespace Eticaret.Magaza.Controllers
         }
 
         [HttpPost, Route("edit")]
-        public async Task<IActionResult> Edit(Product model)
+        public async Task<IActionResult> Update(Product model)
         {
             await _productService.UpdateAsync(model);
             return RedirectToAction("Index");
