@@ -29,12 +29,23 @@ namespace Eticaret.Magaza.Controllers
         }
 
         [HttpPost, Route("edit")]
-        public async Task<IActionResult> Update(Product model)
+        public async Task<IActionResult> Update(Product model, IFormFile image)
         {
+            if (image != null && image.Length > 0)
+            {
+                string gorselYolu = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", image.FileName);
+
+                using (FileStream fs = new FileStream(gorselYolu, FileMode.Create))
+                {
+                    await image.CopyToAsync(fs);
+                    model.ImageName = image.FileName;
+                }
+            }
+
             await _productService.UpdateAsync(model);
             return RedirectToAction("Index");
         }
-        
+
         [HttpGet, Route("new")]
         public IActionResult New()
         {
@@ -42,10 +53,28 @@ namespace Eticaret.Magaza.Controllers
         }
 
         [HttpPost, Route("new")]
-        public async Task<IActionResult> New(Product model)
+        public async Task<IActionResult> New(Product model, IFormFile image)
         {
+            if (image != null && image.Length > 0)
+            {
+                string gorselYolu = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", image.FileName);
+
+                using (FileStream fs = new FileStream(gorselYolu, FileMode.Create))
+                {
+                    await image.CopyToAsync(fs);
+                    model.ImageName = image.FileName;
+                }
+            }
+
             await _productService.CreateAsync(model);
             return RedirectToAction("Index");
+        }
+
+        [HttpGet, Route("delete/{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _productService.DeleteAsync(id);
+            return Json(true);
         }
     }
 }

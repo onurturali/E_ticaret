@@ -8,26 +8,71 @@
 
 <a class="btn btn-success" href="@Url.Action("New", "Product")">Yeni Ürün Ekle</a>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Ürün Adı</th>
-            <th>Fiyat</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (Product item in Model)
-        {
+@if (Model.Any())
+{
+    <table class="table">
+        <thead>
             <tr>
-                <td>@item.Id</td>
-                <td>@item.Name</td>
-                <td>@item.Price</td>
-                <td>
-                    @Html.ActionLink("Düzenle", "Edit", "Product", new { id = item.Id }, new { @class = "btn btn-sm btn-primary" })
-                </td>
+                <th>Gorsel</th>
+                <th>Ürün Adı</th>
+                <th>Fiyat</th>
+                <th></th>
             </tr>
+        </thead>
+        <tbody>
+            @foreach (Product item in Model)
+            {
+                <tr id="urun-@item.Id">
+                    <td>
+                        <img src="/img/@item.ImageName" class="img-fluid" width="20" />
+                    </td>
+                    <td>@item.Name</td>
+                    <td>@item.Price</td>
+                    <td>
+                        <a href="@Url.Action("Edit", "Product", new { id=item.Id })" class="btn btn-sm btn-primary">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+
+                        <button onclick="urunSil(@item.Id)"
+                                id="sil-@item.Id"
+                                class="btn btn-sm btn-danger">
+                            <i class="fa-regular fa-trash-can"></i>
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <center><h3>Ürün yok</h3></center>
+}
+
+@section Scripts{
+    <script>
+        // Vanilla JS
+        var silmeButonu = document.getElementById("sil-1")
+
+        // jQuery
+        var silmeButonu2 = $("#sil-2")
+
+        function urunSil(id) {
+            let silmeIslemi = confirm("Silmek istediğine emin misin?");
+
+            if (silmeIslemi == true) {
+                $.ajax({
+                    method: "GET",
+                    url: `/product/delete/${id}`,
+                    success: function (response) {
+                        $(`#urun-${id}`).remove();
+                    },
+                    error: function (err) {
+                        console.log("Hata oluştu")
+                    },
+                });
+            }
         }
-    </tbody>
-</table>
+
+    </script>
+}
